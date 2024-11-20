@@ -12,8 +12,9 @@ logging.basicConfig(level=logging.INFO)
 @app.route('/calculate', methods=['POST'])
 def calculate():
     try:
-        # Retrieve JSON data from the request
-        data = request.get_json()
+        # Retrieve JSON data from the request (force=True for Python 2 compatibility)
+        data = request.get_json(force=True)
+        
         if not data:
             logging.error("No data provided in request")
             return jsonify({'error': 'No input data provided'}), 400
@@ -52,7 +53,7 @@ def calculate():
         return jsonify({'result': result})
 
     except Exception as e:
-        logging.error(f"Unexpected error occurred: {str(e)}")
+        logging.error("Unexpected error occurred: %s", str(e))
         return jsonify({'error': 'An unexpected error occurred'}), 500
 
 
